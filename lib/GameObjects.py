@@ -34,7 +34,7 @@ class Background(Sprite):
 			image.set_colorkey(colorkey, RLEACCEL)
 		return image, image.get_rect()
 
-	def update(self):
+	def update(self, events):
 		pass
 
 class Character(Sprite):
@@ -61,7 +61,7 @@ class Character(Sprite):
 			image.set_colorkey(colorkey, RLEACCEL)
 		return image, image.get_rect()
 
-	def update(self):
+	def update(self, events):
 		super(Sprite, self).update()
 
 	def alive(self):
@@ -72,9 +72,9 @@ class NonPlayableCharacter(Character):
 	Non Playable Character class.
 	"""
 	def __init__(self, name, image, position=(0,0)):
-		super(Character, self).__init__(name, image, position)
+		Character.__init__(self, name, image, position)
 
-	def update(self):
+	def update(self, events):
 		pass
 
 	def alive(self):
@@ -87,8 +87,22 @@ class PlayableCharacter(Character):
 	def __init__(self, name, image, position=(0,0)):
 		Character.__init__(self, name, image, position)
 
-	def update(self):
+	def update(self, events):
 		pass
 
 	def alive(self):
 		return super(PlayableCharacter, self).alive()
+
+class Map:
+	"""
+	Tile Map
+	"""
+	def __init__(self, name, data):
+		self.name = name
+		self.data = data
+		
+	def update(self, events):
+		pass
+		
+	def draw(self, surface):
+		pass

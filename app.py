@@ -4,7 +4,11 @@ from pygame.locals import *
 
 from pygame.sprite import *
 
+from lib.Controls import *
 from lib.GameObjects import *
+from lib.BaseGameScreens import *
+from lib.GameScreens.StartScreen import *
+from lib.GameScreens.MapScreen import *
 
 from settings import *
 
@@ -18,31 +22,29 @@ class RPGMain:
 	"""
 	def __init__(self):
 		pygame.init()
+		pygame.key.set_repeat(40, 40)
 		self.width = RESOLUTION[0]
 		self.height = RESOLUTION[1]
 		self.screen = pygame.display.set_mode((self.width,
 												self.height))
-		self.backgrounds = RenderPlain()
-		self.sprites = RenderPlain()
+		self.GameScreen = MapScreen('debug.tmx')
+
 
 	def MainLoop(self):
-		bg = Background(self.screen.get_size(), (25, 50, 25), 'background.jpg')
-		self.backgrounds.add(bg)
 		while 1:
-			for event in pygame.event.get():
+			events = pygame.event.get()
+			for event in events:
 				if event.type == pygame.QUIT:
 					sys.exit()
-				else:
-					self.update()
-					self.draw(self.screen)
 
-	def update(self):
-		self.backgrounds.update()
-		self.sprites.update()
+				self.update(events)
+				self.draw(self.screen)
+
+	def update(self, events):
+		self.GameScreen.update(events)
 
 	def draw(self, surface):
-		self.backgrounds.draw(surface)
-		self.sprites.draw(surface)
+		self.GameScreen.draw(surface)
 		pygame.display.flip()
 
 if __name__ == '__main__':
